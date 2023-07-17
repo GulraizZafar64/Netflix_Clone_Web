@@ -5,25 +5,38 @@ import background from "../assets/login.jpg";
 import { useNavigate } from "react-router-dom";
 import BackgroundImage from "../components/BackgroundImage";
 import Header from "../components/Header";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseAuth } from "../utils/firebase-config";
+import { useDispatch } from "react-redux";
+import { LoginUser } from "../Actions/UserAction";
+import { baseUrl } from "../Config/config";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const dispatch=useDispatch()
   const handleLogin = async () => {
-    try {
-      await signInWithEmailAndPassword(firebaseAuth, email, password);
-    } catch (error) {
-      console.log(error.code);
-    }
+    const data = {
+      email:email,
+      password:password
+    };
+    fetch(`${baseUrl}/register`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => console.log(res.json()))
+      
+
+      .catch((err) => {
+        console.log("err is re", err);
+      });
+    // dispatch(LoginUser(email,password))
   };
 
-  onAuthStateChanged(firebaseAuth, (currentUser) => {
-    if (currentUser) navigate("/");
-  });
+
 
   return (
     <Container>

@@ -1,0 +1,1 @@
+export const baseUrl="https://netflix-clone-apis-gy4nqcox4-gulraizzafar64.vercel.app/api/v1"
