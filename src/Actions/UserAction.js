@@ -2,6 +2,7 @@ import axios from "axios"
 import { baseUrl } from "../Config/config"
 
 export const LoginUser=(email,password)=>async(dispatch)=>{
+    axios.defaults.withCredentials=true
     dispatch({
         type:"loginRequest"
     })

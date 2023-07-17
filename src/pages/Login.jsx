@@ -15,25 +15,7 @@ function Login() {
   const navigate = useNavigate();
   const dispatch=useDispatch()
   const handleLogin = async () => {
-    const data = {
-      email:email,
-      password:password
-    };
-    fetch(`${baseUrl}/register`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => console.log(res.json()))
-      
-
-      .catch((err) => {
-        console.log("err is re", err);
-      });
-    // dispatch(LoginUser(email,password))
+    dispatch(LoginUser(email,password))
   };
 
 
