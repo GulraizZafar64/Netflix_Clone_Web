@@ -5,9 +5,10 @@ import Card from "../components/Card";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
+import CardSlider from "../components/CardSlider";
 
 export default function UserListedMovies() {
-  const movies = useSelector((state) => state.netflix.movies);
+  const {user}=useSelector((state)=>state.profile)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -27,36 +28,17 @@ export default function UserListedMovies() {
   return (
     <Container>
       <Navbar isScrolled={isScrolled} />
-      <div className="content flex column">
-        <h1>My List</h1>
-        <div className="grid flex">
-          {movies.map((movie, index) => {
-            return (
-              <Card
-                movieData={movie}
-                index={index}
-                key={movie.id}
-                isLiked={true}
-              />
-            );
-          })}
-        </div>
-      </div>
+      <CardSlider data={user?.listing} title="My List" />
+      <CardSlider data={user?.likes}  title="Liked Movies" />
+      <CardSlider
+        data={user?.dislikes} 
+        title="Dislike Movies"
+      />
+ 
     </Container>
   );
 }
 
 const Container = styled.div`
-  .content {
-    margin: 2.3rem;
-    margin-top: 8rem;
-    gap: 3rem;
-    h1 {
-      margin-left: 3rem;
-    }
-    .grid {
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-  }
+ margin-top: 50px;
 `;

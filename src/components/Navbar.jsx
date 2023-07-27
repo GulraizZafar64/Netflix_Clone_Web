@@ -1,17 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/logo.png";
 import { FaPowerOff, FaSearch } from "react-icons/fa";
+import { loadUser } from "../Actions/UserAction";
+import { useDispatch } from "react-redux";
 export default function Navbar({ isScrolled }) {
   const [showSearch, setShowSearch] = useState(false);
   const [inputHover, setInputHover] = useState(false);
   const links = [
     { name: "Home", link: "/" },
-    { name: "TV Shows", link: "/tv" },
-    { name: "Movies", link: "/movies" },
     { name: "My List", link: "/mylist" },
   ];
+
+  const navigate=useNavigate()
+  const dispatch=useDispatch()
 
   return (
     <Container>
@@ -53,7 +56,12 @@ export default function Navbar({ isScrolled }) {
               }}
             />
           </div>
-          <button>
+          <button onClick={()=>{
+            localStorage.clear()
+            dispatch({type:"logoutUser"})
+            dispatch(loadUser())
+            navigate('/login')
+          }}>
             <FaPowerOff />
           </button>
         </div>

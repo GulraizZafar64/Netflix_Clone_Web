@@ -1,11 +1,16 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BackgroundImage from "../components/BackgroundImage";
 import Header from "../components/Header";
+import { loadUser, registerUser } from "../Actions/UserAction";
+import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
+  const {loading,isAuthenticated,error}=useSelector((state)=>state.user)
+  const dispatch=useDispatch()
   const [formValues, setFormValues] = useState({
     email: "",
     password: "",
@@ -13,9 +18,19 @@ function Signup() {
   const navigate = useNavigate();
 
   const handleSignIn = async () => {
-
+    dispatch(registerUser(formValues.email,formValues.password))
+    dispatch(loadUser())
   };
-
+  useEffect(() => {
+    if(error){
+      toast.error(error.message)
+      dispatch({type:"clearError"})
+    }
+    if(isAuthenticated){
+      toast.success("Login Successfully")
+      navigate('/')
+    }
+  }, [error,isAuthenticated])
 
   return (
     <Container showPassword={showPassword}>

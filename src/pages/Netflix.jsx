@@ -8,16 +8,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { FaPlay } from "react-icons/fa";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import Slider from "../components/Slider";
+import { blockBuster, popularMovies, relaseMovies, trendingMovies } from "../Actions/MoviesAction";
 function Netflix() {
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-let movies=[]
+  const {trending,newReleased,popular,buster,loading}=useSelector((state)=>state.movies)
   useEffect(() => {
   }, []);
 
   useEffect(() => {
-  
+  dispatch(trendingMovies())
+  dispatch(relaseMovies())
+  dispatch(popularMovies())
+  dispatch(blockBuster())
   }, []);
 
 
@@ -55,7 +59,7 @@ let movies=[]
           </div>
         </div>
       </div>
-      <Slider movies={movies} />
+     {loading?'': <Slider trending={trending} newReleased={newReleased} popular={popular} buster={buster}/>}
     </Container>
   );
 }

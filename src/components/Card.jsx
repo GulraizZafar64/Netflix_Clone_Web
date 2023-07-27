@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { IoPlayCircleSharp } from "react-icons/io5";
@@ -7,19 +7,46 @@ import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
 import { BiChevronDown } from "react-icons/bi";
 import { BsCheck } from "react-icons/bs";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import video from "../assets/video.mp4";
+import { likeDislike as Likeit, Listing, dislike } from "../Actions/LikeDislikeAction";
+import { loadUser } from "../Actions/UserAction";
+import { toast } from "react-hot-toast";
 
 export default React.memo(function Card({ index, movieData, isLiked = false }) {
+  const {user}=useSelector((state)=>state.profile)
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isHovered, setIsHovered] = useState(false);
+  const [indexArray,setIndexArray]=useState([])
+  const [indexArrayOfDislike,setIndexArrayOfDislike]=useState([])
   const [email, setEmail] = useState(undefined);
 
 
-  const addToList = async () => {
 
+  const addToList = async (poster_path) => {
+   dispatch(Likeit(poster_path))
   };
+  const addmyList = async (poster_path) => {
+   dispatch(Listing(poster_path))
+  };
+
+  const addTodislike = async (poster_path) => {
+   dispatch(dislike(poster_path))
+  };
+  useEffect(() => {
+    if(user){
+      setIndexArray([])
+      setIndexArrayOfDislike([])
+      user.likes.map((item)=>{
+        setIndexArray((pre)=>[...pre,item.poster_path])
+      })
+      user.dislikes.map((item)=>{
+        setIndexArrayOfDislike((pre)=>[...pre,item.poster_path])
+      })
+    }
+  }, [user])
 
   return (
     <Container
@@ -27,7 +54,7 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
       onMouseLeave={() => setIsHovered(false)}
     >
       <img
-        src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
+        src={`https://image.tmdb.org/t/p/w500${movieData.poster_path}`}
         alt="card"
         onClick={() => navigate("/player")}
       />
@@ -36,7 +63,7 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
         <div className="hover">
           <div className="image-video-container">
             <img
-              src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
+              src={`https://image.tmdb.org/t/p/w500${movieData.poster_path}`}
               alt="card"
               onClick={() => navigate("/player")}
             />
@@ -50,7 +77,7 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
           </div>
           <div className="info-container flex column">
             <h3 className="name" onClick={() => navigate("/player")}>
-              {movieData.name}
+              {movieData.original_name}
             </h3>
             <div className="icons flex j-between">
               <div className="controls flex">
@@ -58,14 +85,14 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
                   title="Play"
                   onClick={() => navigate("/player")}
                 />
-                <RiThumbUpFill title="Like" />
-                <RiThumbDownFill title="Dislike" />
+                <RiThumbUpFill style={{color:indexArray.includes(movieData.poster_path) && "red"}} title="Like" onClick={()=>addToList(movieData.poster_path)}/>
+                <RiThumbDownFill style={{color:indexArrayOfDislike.includes(movieData.poster_path) && "red"}} title="Dislike" onClick={()=>addTodislike(movieData.poster_path)}/>
                 {isLiked ? (
                   <BsCheck
                     title="Remove from List"
                   />
                 ) : (
-                  <AiOutlinePlus title="Add to my list" onClick={addToList} />
+                  <AiOutlinePlus title="Add to my list" onClick={()=>addmyList(movieData.poster_path)}/>
                 )}
               </div>
               <div className="info">
@@ -73,11 +100,11 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
               </div>
             </div>
             <div className="genres flex">
-              <ul className="flex">
+              {/* <ul className="flex">
                 {movieData.genres.map((genre) => (
                   <li>{genre}</li>
                 ))}
-              </ul>
+              </ul> */}
             </div>
           </div>
         </div>

@@ -1,1 +1,3 @@
-export const baseUrl="https://netflix-clone-apis-gy4nqcox4-gulraizzafar64.vercel.app/api/v1"
+export const baseUrl="https://netflix-clone-apis.vercel.app/api/v1"
+export const moviesBasUrl="https://api.themoviedb.org/3"
+export const moviesToken="eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1N2FiNjYxMzVjNmRkY2NhZDI2ZDMyZTNlNzU3OWFkNSIsInN1YiI6IjY0YmZiNjU3NmQ0Yzk3MDBjNWUzN2FjZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.jRJQzmoD32C2yzuy4fcBGMpqG3sfUT0p0lo22euxqok"

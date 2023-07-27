@@ -10,10 +10,11 @@ import Slider from "../components/Slider";
 
 function TVShows() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const movies = useSelector((state) => state.netflix.movies);
-  const genres = useSelector((state) => state.netflix.genres);
-  const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
-  const dataLoading = useSelector((state) => state.netflix.dataLoading);
+  // const movies = useSelector((state) => state.netflix.movies);
+  // const genres = useSelector((state) => state.netflix.genres);
+  // const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
+  // const dataLoading = useSelector((state) => state.netflix.dataLoading);
+  const {trending,newReleased,popular,buster,loading}=useSelector((state)=>state.movies)
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -38,10 +39,10 @@ function TVShows() {
     <Container>
       <Navbar isScrolled={isScrolled} />
       <div className="data">
-        <SelectGenre genres={genres} type="tv" />
-        {movies.length ? (
+        <SelectGenre genres={[]} type="tv" />
+        {trending.length ? (
           <>
-            <Slider movies={movies} />
+            <Slider trending={trending} />
           </>
         ) : (
           <h1 className="not-available">

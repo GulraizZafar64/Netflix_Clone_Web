@@ -8,11 +8,11 @@ export default React.memo(function CardSlider({ data, title }) {
   const [showControls, setShowControls] = useState(false);
   const handleDirection = (direction) => {
     let distance = listRef.current.getBoundingClientRect().x - 70;
-    if (direction === "left" && sliderPosition > 0) {
+    if (direction === "left" && sliderPosition >0) {
       listRef.current.style.transform = `translateX(${230 + distance}px)`;
       setSliderPosition(sliderPosition - 1);
     }
-    if (direction === "right" && sliderPosition < 4) {
+    if (direction === "right" && sliderPosition < data?.length-1) {
       listRef.current.style.transform = `translateX(${-230 + distance}px)`;
       setSliderPosition(sliderPosition + 1);
     }
@@ -32,10 +32,10 @@ export default React.memo(function CardSlider({ data, title }) {
             !showControls ? "none" : ""
           } flex j-center a-center`}
         >
-          <AiOutlineLeft onClick={() => handleDirection("left")} />
+          {data?.length>5 && <AiOutlineLeft onClick={() => handleDirection("left")} />}
         </div>
         <div className="slider flex" ref={listRef}>
-          {data.map((movie, index) => {
+          {data?.map((movie, index) => {
             return <Card movieData={movie} index={index} key={movie.id} />;
           })}
         </div>
@@ -44,7 +44,7 @@ export default React.memo(function CardSlider({ data, title }) {
             !showControls ? "none" : ""
           } flex j-center a-center`}
         >
-          <AiOutlineRight onClick={() => handleDirection("right")} />
+         {data?.length>5 && <AiOutlineRight onClick={() => handleDirection("right")} />}
         </div>
       </div>
     </Container>

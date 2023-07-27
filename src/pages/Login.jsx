@@ -1,26 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import logo from "../assets/logo.png";
 import background from "../assets/login.jpg";
 import { useNavigate } from "react-router-dom";
 import BackgroundImage from "../components/BackgroundImage";
 import Header from "../components/Header";
-import { useDispatch } from "react-redux";
-import { LoginUser } from "../Actions/UserAction";
+import { useDispatch, useSelector } from "react-redux";
+import { LoginUser, loadUser } from "../Actions/UserAction";
 import { baseUrl } from "../Config/config";
+import { toast } from "react-hot-toast";
+import Loader from "../components/Loader";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch=useDispatch()
+  const {isAuthenticated,error}=useSelector((state)=>state.user)
+  const {loading}=useSelector((state)=>state.profile)
+
   const handleLogin = async () => {
     dispatch(LoginUser(email,password))
   };
 
+  useEffect(() => {
+    if(error){
+      toast.error(error.message)
+      dispatch({type:"clearError"})
+    }
+    if(isAuthenticated){
+      toast.success("Login Successfully")
+      navigate('/')
+    }
+  }, [error,isAuthenticated])
+
 
 
   return (
+    loading? <Loader/>:
     <Container>
       <BackgroundImage />
       <div className="content">
@@ -43,7 +60,7 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
               />
-              <button onClick={handleLogin}>Login to your account</button>
+              <button disabled={loading} onClick={handleLogin}>Login to your account</button>
             </div>
           </div>
         </div>
