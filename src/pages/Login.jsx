@@ -17,22 +17,31 @@ function Login() {
   const navigate = useNavigate();
   const dispatch=useDispatch()
   const {isAuthenticated,error}=useSelector((state)=>state.user)
-  const {loading}=useSelector((state)=>state.profile)
+  const {loading,isAuthenticated:profileAuth}=useSelector((state)=>state.profile)
+  
 
   const handleLogin = async () => {
     dispatch(LoginUser(email,password))
   };
 
+  // useEffect(() => {
+  //   if(error){
+  //     toast.error(error.message)
+  //     dispatch({type:"clearError"})
+  //   }
+  //   if(isAuthenticated){
+  //     toast.success("Login Successfully")
+  //     navigate('/')
+  //   }
+  // }, [error,isAuthenticated])
   useEffect(() => {
-    if(error){
-      toast.error(error.message)
-      dispatch({type:"clearError"})
-    }
-    if(isAuthenticated){
-      toast.success("Login Successfully")
+    if(profileAuth){
       navigate('/')
+    }else{
+      navigate('/login')
+
     }
-  }, [error,isAuthenticated])
+  }, [profileAuth])
 
 
 

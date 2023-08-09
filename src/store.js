@@ -1,5 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit'
-import { userProfileReducer, userReducer } from './Reducers/User'
+import { tokenReducer, userProfileReducer, userReducer } from './Reducers/User'
 import { movies } from './Reducers/Movies'
 import { likeDislike } from './Reducers/LikeDislikeMovie'
 const store=configureStore({
@@ -7,7 +7,8 @@ const store=configureStore({
         user:userReducer,
         profile:userProfileReducer,
         movies:movies,
-        likeDislike:likeDislike
+        likeDislike:likeDislike,
+        token:tokenReducer
     }
 })
 

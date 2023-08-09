@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const {loading,isAuthenticated,error}=useSelector((state)=>state.user)
+  const token = useSelector((state) => state.token);
+
   const dispatch=useDispatch()
   const [formValues, setFormValues] = useState({
     email: "",
@@ -19,7 +21,7 @@ function Signup() {
 
   const handleSignIn = async () => {
     dispatch(registerUser(formValues.email,formValues.password))
-    dispatch(loadUser())
+    dispatch(loadUser(token))
   };
   useEffect(() => {
     if(error){
@@ -27,7 +29,7 @@ function Signup() {
       dispatch({type:"clearError"})
     }
     if(isAuthenticated){
-      toast.success("Login Successfully")
+      toast.success("Register Successfully")
       navigate('/')
     }
   }, [error,isAuthenticated])

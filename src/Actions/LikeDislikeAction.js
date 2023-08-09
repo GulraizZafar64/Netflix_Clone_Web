@@ -3,8 +3,9 @@ import { baseUrl } from "../Config/config"
 import { loadUser } from "./UserAction"
 import { toast } from "react-hot-toast"
 
-const token=localStorage.getItem("token")
-export const likeDislike=(poster_path)=>async(dispatch)=>{
+
+export const likeDislike=(poster_path,token)=>async(dispatch)=>{
+    console.log(token)
     dispatch({
         type:"likeDislikeRequest"
     })
@@ -16,7 +17,7 @@ export const likeDislike=(poster_path)=>async(dispatch)=>{
         })
         toast.success(data.message)
         dispatch({type:"clearMessage"})
-        dispatch(loadUser())
+        dispatch(loadUser(token))
         dispatch({
             type:"likeDislikeSuccess",
             payload:data
@@ -29,7 +30,7 @@ export const likeDislike=(poster_path)=>async(dispatch)=>{
         })  
     }
 }
-export const dislike=(poster_path)=>async(dispatch)=>{
+export const dislike=(poster_path,token)=>async(dispatch)=>{
     dispatch({
         type:"dislikeRequest"
     })
@@ -41,7 +42,7 @@ export const dislike=(poster_path)=>async(dispatch)=>{
         })
         toast.success(data.message)
         dispatch({type:"clearMessage"})
-        dispatch(loadUser())
+        dispatch(loadUser(token))
         dispatch({
             type:"dislikeSuccess",
             payload:data
@@ -54,7 +55,7 @@ export const dislike=(poster_path)=>async(dispatch)=>{
         })  
     }
 }
-export const Listing=(poster_path)=>async(dispatch)=>{
+export const Listing=(poster_path,token)=>async(dispatch)=>{
     dispatch({
         type:"listingRequest"
     })
@@ -66,7 +67,7 @@ export const Listing=(poster_path)=>async(dispatch)=>{
         })
         toast.success(data.message)
         dispatch({type:"clearMessage"})
-        dispatch(loadUser())
+        dispatch(loadUser(token))
         dispatch({
             type:"listingSuccess",
             payload:data

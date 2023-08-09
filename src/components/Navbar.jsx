@@ -59,7 +59,7 @@ export default function Navbar({ isScrolled }) {
           <button onClick={()=>{
             localStorage.clear()
             dispatch({type:"logoutUser"})
-            dispatch(loadUser())
+            dispatch(loadUser(null))
             navigate('/login')
           }}>
             <FaPowerOff />

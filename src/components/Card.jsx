@@ -15,6 +15,7 @@ import { toast } from "react-hot-toast";
 
 export default React.memo(function Card({ index, movieData, isLiked = false }) {
   const {user}=useSelector((state)=>state.profile)
+  const {token} = useSelector((state) => state.token);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,17 +24,15 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
   const [indexArrayOfDislike,setIndexArrayOfDislike]=useState([])
   const [email, setEmail] = useState(undefined);
 
-
-
   const addToList = async (poster_path) => {
-   dispatch(Likeit(poster_path))
+   dispatch(Likeit(poster_path,token))
   };
   const addmyList = async (poster_path) => {
-   dispatch(Listing(poster_path))
+   dispatch(Listing(poster_path,token))
   };
 
   const addTodislike = async (poster_path) => {
-   dispatch(dislike(poster_path))
+   dispatch(dislike(poster_path,token))
   };
   useEffect(() => {
     if(user){
