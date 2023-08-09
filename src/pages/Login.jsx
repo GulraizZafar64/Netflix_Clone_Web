@@ -24,16 +24,15 @@ function Login() {
     dispatch(LoginUser(email,password))
   };
 
-  // useEffect(() => {
-  //   if(error){
-  //     toast.error(error.message)
-  //     dispatch({type:"clearError"})
-  //   }
-  //   if(isAuthenticated){
-  //     toast.success("Login Successfully")
-  //     navigate('/')
-  //   }
-  // }, [error,isAuthenticated])
+  useEffect(() => {
+    if(error){
+      toast.error(error.message)
+      dispatch({type:"clearError"})
+    }
+    if(isAuthenticated){
+      navigate('/')
+    }
+  }, [error])
   useEffect(() => {
     if(profileAuth){
       navigate('/')

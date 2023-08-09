@@ -18,7 +18,11 @@ export const userReducer = createReducer(intitialState, {
     state.isAuthenticated=false
 
   },
-
+  logoutUser: (state) => {
+    state.isAuthenticated = false;
+    state.loading = false;
+    state.user = null;
+  },
   registerRequest: (state) => {
     state.loading = true;
   },
@@ -72,5 +76,10 @@ export const tokenReducer = createReducer(intitialState, {
   },
   clearError: (state, action) => {
     state.error = null;
+  },
+  logoutUser: (state) => {
+    state.isAuthenticated = false;
+    state.loading = false;
+    state.token = null;
   },
 });

@@ -29,7 +29,6 @@ function Signup() {
       dispatch({type:"clearError"})
     }
     if(isAuthenticated){
-      toast.success("Register Successfully")
       navigate('/')
     }
   }, [error,isAuthenticated])

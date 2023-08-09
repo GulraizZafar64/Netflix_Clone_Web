@@ -1,5 +1,6 @@
 import axios from "axios"
 import { baseUrl } from "../Config/config"
+import { toast } from "react-hot-toast"
 
 
 export const LoginUser=(email,password)=>async(dispatch)=>{
@@ -24,6 +25,8 @@ export const LoginUser=(email,password)=>async(dispatch)=>{
             payload:data
         })
         dispatch(loadUser(data.token))
+      toast.success("Login Successfully")
+
     } catch (error) {
      
         dispatch({
@@ -44,12 +47,19 @@ export const registerUser=(email,password)=>async(dispatch)=>{
         const {data}=await axios.post(`${baseUrl}/register`,{email,password},{
             headers: {'Content-Type': 'application/json'}
         })
-        localStorage.setItem("token",data.token)
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('loginUser', JSON.stringify(data));
+        dispatch({
+            type:"tokenSuccess",
+            payload:data.token
+        })
         dispatch(loadUser(data.token))
         dispatch({
             type:"registerSuccess",
             payload:data
         })
+
+        toast.success("Register Successfully")
     } catch (error) {
      
         dispatch({
